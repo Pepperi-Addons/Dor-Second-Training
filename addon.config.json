@@ -1,6 +1,6 @@
 {
   "AddonUUID": "e37ac872-bc28-4016-94de-3c52e0f7a6d3",
-  "AddonVersion": "0.0.3",
+  "AddonVersion": "0.0.4",
   "DebugPort": 4500,
   "WebappBaseUrl": "https://app.sandbox.pepperi.com",
   "DefaultEditor": "main",
@@ -16,7 +16,7 @@
     "Editors": [
       {
         "ParentPackageName": "Training",
-        "PackageName": "Dor's Todo",
+        "PackageName": "TodoAddon",
         "Description": "Dor's Todo Addon"
       }
     ],
