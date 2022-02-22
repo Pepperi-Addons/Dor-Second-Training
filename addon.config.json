@@ -1,0 +1,26 @@
+{
+  "AddonUUID": "e37ac872-bc28-4016-94de-3c52e0f7a6d3",
+  "AddonVersion": "0.0.2",
+  "DebugPort": 4500,
+  "WebappBaseUrl": "https://app.sandbox.pepperi.com",
+  "DefaultEditor": "main",
+  "Endpoints": [
+    "installation.ts",
+    "api.ts"
+  ],
+  "Editors": [
+    "main"
+  ],
+  "PublishConfig": {
+    "ClientStack": "ng10",
+    "Editors": [
+      {
+        "ParentPackageName": "Training",
+        "PackageName": "Dor's Todo",
+        "Description": "Dor's Todo Addon"
+      }
+    ],
+    "Dependencies": {},
+    "CPISide": []
+  }
+}
