@@ -12,7 +12,7 @@ export class AddonService {
     accessToken = '';
     parsedToken: any
     papiBaseURL = ''
-    addonUUID;
+    addonUUID: string = '';
 
     get papiClient(): PapiClient {
         return new PapiClient({
@@ -30,6 +30,7 @@ export class AddonService {
         const accessToken = this.session.getIdpToken();
         this.parsedToken = jwt(accessToken);
         this.papiBaseURL = this.parsedToken["pepperi.baseurl"];
+        this.addonUUID = 'e37ac872-bc28-4016-94de-3c52e0f7a6d3'
     }
 
     async get(endpoint: string): Promise<any> {

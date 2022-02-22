@@ -1,3 +1,4 @@
+import { TodoService } from './../services/todo.service';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { PepLayoutService, PepScreenSizeType } from '@pepperi-addons/ngx-lib';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,7 +24,8 @@ export class AddonComponent implements OnInit {
         public router: Router,
         public route: ActivatedRoute,
         public layoutService: PepLayoutService,
-        public translate: TranslateService
+        public translate: TranslateService,
+        public todoService: TodoService
     ) {
         this.layoutService.onResize$.subscribe(size => {
             this.screenSize = size;
@@ -39,18 +41,7 @@ export class AddonComponent implements OnInit {
 
     listDataSource: GenericListDataSource = {
         getList: async (state) => {
-            return [
-                {
-                    Key: 'key1',
-                    Field1: 'Hello',
-                    Field2: true
-                },
-                {
-                    Key: 'key1',
-                    Field1: 'World',
-                    Field2: false
-                }
-            ]
+            return this.todoService.getTodos();
         },
 
         getDataView: async () => {
@@ -64,21 +55,41 @@ export class AddonComponent implements OnInit {
                   Title: '',
                   Fields: [
                     {
-                        FieldID: 'Field1',
+                        FieldID: 'Name',
                         Type: 'TextBox',
-                        Title: 'Field1',
+                        Title: 'Name',
                         Mandatory: false,
                         ReadOnly: true
                     },
                     {
-                        FieldID: 'Field2',
+                        FieldID: 'Description',
+                        Type: 'TextBox',
+                        Title: 'Description',
+                        Mandatory: false,
+                        ReadOnly: true
+                    },
+                    {
+                        FieldID: 'DueDate',
+                        Type: 'Date',
+                        Title: 'Due Date',
+                        Mandatory: false,
+                        ReadOnly: true
+                    },
+                    {
+                        FieldID: 'Completed',
                         Type: 'Boolean',
-                        Title: 'Field2',
+                        Title: 'Completed',
                         Mandatory: false,
                         ReadOnly: true
                     }
                   ],
                   Columns: [
+                    {
+                      Width: 25
+                    },
+                    {
+                      Width: 25
+                    },
                     {
                       Width: 25
                     },
@@ -92,8 +103,9 @@ export class AddonComponent implements OnInit {
         },
 
         getActions: async (objs) =>  {
-            return objs.length ? [
-                {
+            const res = []
+            if (objs.length === 1) {
+                res.push({
                     title: this.translate.instant("Edit"),
                     handler: async (objs) => {
                         this.router.navigate([objs[0].Key], {
@@ -101,8 +113,23 @@ export class AddonComponent implements OnInit {
                             queryParamsHandling: 'merge'
                         });
                     }
-                }
-            ] : []
+                })
+            }
+            if (objs.length > 0) {
+                res.push({
+                    title: this.translate.instant("Delete"),
+                    handler: async (objs) => {
+                        this.todoService.deleteTodos(objs)
+                    }
+                })
+                res.push({
+                    title: this.translate.instant("Mark has completed"),
+                    handler: async (objs) => {
+                        this.todoService.completeTodos(objs)
+                    }
+                })
+            }
+            return res
         }
     }
 }
