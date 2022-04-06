@@ -4,6 +4,14 @@ import { v4 as uuid } from 'uuid'
 
 const TABLE_NAME = 'Todos';
 
+interface TodoObj {
+    Name: string;
+    Description: string;
+    Completed: Boolean;
+    DueDate: string;
+    Key?: string;
+}
+
 class TodosService {
 
     papiClient: PapiClient
@@ -25,12 +33,12 @@ class TodosService {
         return this.papiClient.addons.data.uuid(this.addonUUID).table(TABLE_NAME).find(options);
     }
 
-    createTodo(body) {
+    createTodo(body: TodoObj) {
         body.Key = uuid()
         return this.updateTodo(body);
     }
 
-    updateTodo(body) {
+    updateTodo(body: TodoObj) {
         return this.papiClient.addons.data.uuid(this.addonUUID).table(TABLE_NAME).upsert(body);
     }
 
